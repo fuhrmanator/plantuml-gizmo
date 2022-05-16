@@ -1,0 +1,65 @@
+<script>
+  /**
+   * Runs a server-side function to query preferences and put them in UI
+   */
+  function getPrefsOnServer() {
+    // PlantUML server pref
+    google.script.run
+        .withSuccessHandler(
+          function(prefs) {
+            //console.log("getPrefs: prefs.serverPrefix = " + prefs.serverPrefix + ", useDataURL = " + prefs.useDataURL);
+            // remove "disabled" since the preferences are now loaded and user can now interact
+            $('#plantuml-server').val(prefs.serverPrefix);
+            $('#plantuml-server').prop('disabled', false);  // $("input").prop('disabled', false);
+            $('#use-data-url').attr('checked', prefs.useDataURL == true); 
+            $('#use-data-url').prop('disabled', false);  // $("input").prop('disabled', false);
+            $('#test-server').prop('disabled', false);
+          })
+        .withFailureHandler(
+          function(msg) {
+            showError(msg);
+          })
+        .getPrefs();
+    // other prefs...
+  }
+
+  /**
+   * Runs a server-side function to set preferences
+   */
+  function setPrefsOnServer() {
+    this.disabled = true;
+    // prefs object
+    var prefs = {serverPrefix:$('#plantuml-server').val(),
+                 useDataURL:$('#use-data-url').prop('checked')};
+    //console.log("setPrefs " + prefs.serverPrefix + ", useDataURL = " + prefs.useDataURL);
+    google.script.run
+        .withSuccessHandler(
+          function(savedPrefs, element) {
+            $('#plantuml-server').val(savedPrefs.serverPrefix);
+            $('#use-data-url').attr('checked', savedPrefs.useDataURL == true);
+            element.disabled = false;
+            reloadSidebar();  // so it gets changes to prefs
+            google.script.host.close(); // dialog
+          })
+        .withFailureHandler(
+          function(msg, element) {
+            showError(msg, $('#settings-block'));
+            element.disabled = false;
+          })
+        .withUserObject(this)
+        .setPrefs(prefs);
+// other prefs...
+  }
+  
+  /**
+   * This is how the sidebar reloads the prefs once they're changed
+   */
+  function reloadSidebar() {
+    google.script.run
+        .withFailureHandler(
+          function(msg) {
+            showError(msg, $('#settings-block'));
+          })
+        .reshowSidebar();
+  }
+</script>

@@ -1,0 +1,116 @@
+<!-- 
+ * PlantUML Gizmo project - (c) 2014-2019 Christopher Fuhrman 
+ * fuhrmanator@gmail.com
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('Stylesheet').getContent(); ?>
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad">
+    </script>
+  </head>
+  <body>
+<div class="sidebar branding-below">
+  <form>
+    <div class="block form-group">
+      <div class="block">
+        <select name="examples" id="examples" onchange="updateSourceFromSample(this)" class="form-spaced">
+          <option class="" value="label">Select sample diagram...</option>
+          <optgroup label="Basic">
+            <option value="oqbDAr4eoLSeoapFA558oInAJIx9pC_ZiWefIan9BR9IqDLLq73CIyofB4wDoGlABCxMH9KBACfC1iguf2RcQ7AXgLJGqxDJq0XBp2c5gL2mKh2noSnBpYbDIRMpuqBHJKWr0000">
+              Use cases</option>
+            <option value="FOon2iCm34HtVuNmMCYGDKEXI_z3ZKKjQjb1KeOGykzrQEXoxuPtPn-k2oeAc6-5UYhFlae9cHE1aEUMBCm5pU1P-9qTzW2GqAd3MKxKLLwalHoN-M1TclxKYjqvmZMEjmW3n37-dUdy9HkymVqB">
+              Conceptual classes</option>
+            <option value="NOx12i8m44Jl-nLBJth95vI2YA07Jtv0sQPR3AP9wUv14V_THcs9lGt3pBnnGNdio3Bke_TirSM0PUbckwhm2NKDJOoUAI2rxUQ0l0LZ3BnWoU5f4gHn_2zdWGlhQfZlog6LZ0pP2LCjczdAcOOL8Jd6SwTJeRZnGug40cf4HxAAkv_uycTxmhj-yDnpKFaKh2SHF99SKtB-bhNV">
+              Software classes</option>
+            <option value="ROv12i9034NtEKKkC1v0HD0Bk9QkuZJOq3HJPbB5splJBXHn4_Zl_nz-6SLcoZHXyPTolLcYBvD25uvuJZVSevWuK7Hva7DZq7YrJogHQs1WrVH9h1WWPcxguWDdsAAXbbPTIyPF04iraUK-E5pJWf4CIKl2UV7LAvWC2pyuauAASTa1Mu_D-_gvxKmZzFopeZk4yDUkx0q0">
+              Sequence diagram</option>
+            <option value="NOwn3i8m34JtV8N7P8GHXlu4Fs0L1wmaJcIxG_-UL21LOhcJxjv9PuLbe683yxtILENLjrQ3EQg7m1bYswhpqBwIMTSbWRz98EvaAG3ahcKQmEs1LYxtNmJuGfQpk1u5oVFBKpM2A3tzBKzuefpdYpu-">
+              Activity diagram</option>
+            <option value="FSt12iCW30RWUvv2s5lOutPVsNq7fy5AhPOO1u8FtmXpbmJoVqdA7j9fo1ogS8iebOBbUaGe_-HZxEufr-HiZfaKaqb58amC_Hw3z0w53J7e9paavKBP5kYt6Fp6dX1JVw68AfjYTHxg3Neb77UcVs0CNwGcOam4_2OJp6TwDMsHb_cy0000">
+              Activity diagram (swimlanes)</option>
+            <option value="HOun3iCW34LtJk6v4kgUeLB7d27Du01fh123m2JAxGjLgYuU_lEpVrw98oRS8ClfNPs9Z9JDg-4sWjOFw6sDEo0cKHp4WNUpG9X_eA-0q5SJnQblMAsd4TeRBho4iC8TeiSJRDkKmEx5muwUBEGoPPDeScbKb_H_kY2_TOdNrPgtKXtafOWD1ty0">
+              State diagram</option>            
+          </optgroup>
+          <optgroup label="Craig Larman's OOA/D book">
+            <option value="VLB1QiCm3BtdAqHExQ65CTYf5CPWws3hGdFDHQHgOXhBGLR6kh5_d-sk9NHb5wFdf_SaFwn6Eu82HGrsC7Y26kFXMEb3OMkm4RGLJnvDCmZ1tVmMTk8ilA1Ov6dMqKv17OXfsjWlLAjndFczuHw35hmUmWYlOceTR3TYUgpts52P6g8mmrgTmCFWrLcI4qJVcZDwHGwQ4yeBF5XYhVX-qDQ9-SGulkAIvDtKb0FwCCTdqHwv2OFonI9fbykALnie3rx9fhvMncth4C0JCHHlPGvV6PpNWjaC9eMucho74ZkQHlAuv5NkT-Nhkh7f2daRHcz81s5_QVkN7Hl_huqrF7EyFjUH24-6YwNYTKpiEp3ib68owvi003ibOLIA850fQjWvIMJuDBOVGaT4FgKAAUY0YRV9Aml6C9z7lrQEnGy0">
+              Use cases</option>
+            <option value="LP5DJWCn38NtSmfhLb0f8s37BBe18IeLgMfPid4RjxKwIKhi0OrG9Gx12Ja9oVINJUBOdrvUNcJ3VeiH7OXs3QKrya9RrnHhjWIET1six0_ajjgbbfjJb49P4p_1g8mDsE2GFRXWgVdz_a7uO6bpFwbny1YxDtybxBZ121hWYLTj9BYlxc0PWuCnHeV-kbWqA0Bb31kICNiQARaIK60s7i5N0V3UeazNTpLxBNO7FkFzrABIApkg7m_52PbWvyXhJw4BhTVw9NZgpXeQubx4OnAOfI3yAiFMHX8vDdP5TbBULDLj2IRoQgq6obHdfr33b1OXMZ6IB9cmX67Hcyl4mBJRp5RLeEpVKyD3y9fo8sjIUCEYroZJrDZmwVUwlQywRulDaTjxpTCJs8jEQSMY59FoSsY5vFBwIxCNu0DkDNs5DS7_eyyEZj7LgM9hvXqC_m00">
+              Domain model</option>
+            <option value="LOxBQiD034NtynKYAmUSlfR114938T2MWBVTYB5YYtXcd95Cwh-l78ffDrhedlkG2yS1CmOGdNgoczdh67edYrBJTQJewOD4iALzpsq4Jr4fEsKrLrqVu9mo85IyE-NaZOGQUweUUGTYB6PENx5uutRC1CzF3ozmpYd0E-Q0SUtGg_bNsrUKZYcl00MyitvbpmD6DQsUH2dS9N5-inFOGi0BVT9jxd9zIWE4PFbid3ZuPUvBZ_Ogvl_nKC9rj4JMQMrCLMqsCzMG-Co3SeebQ5Bi7SK6vb2t13LpKR5sY-iEmesr0yLl-hVhX5EmxW936gF-CVaEOqlGZ5H29a_M-WC0">
+              System Sequence Diagram</option>
+            <option value="TL9VIoD137-VJn5yEi4AlXmYKZWAWj0xHC-tliHfkXkSpIwJh7M__MMcrgt2lGoPJFBxauc-iWoOiGErAP6VcQEDNGh6vlSdz0Db2zOIn3ubYiQzGCo49TZ87JTZ9hYwllm92_Wr36bYQU3vzxhsFQ0PPL5ucM2LaHjOO-vGWhCQHnvG3Cvk7gbXzS8pG8KSf3U2H3k3VWSPRWxTJjddZHJOLI-MYvmCOR4i5Hs-qX_Q5y41NUGREiG7KkQc_OGwKXqya09kfDgSERw9AwzLc8P3ZmTviLYgenqICwE6BVsNNiC9oKKTRfXb250ts0JXTD0_T8njuSO0QzTz3lkMFRFdb0BG6ucDcD84RP-seKBgceNkZRe0B6eeaJIG3ws8-MOjiTLItKX1l_tIlwoc4nzTUwHkE_7i-_EZ0lnjMO7UAOvLk0uKUSUnhWdu4tT3Ol9Dwk75RU_PMfQFlNAPUOm-b3AbageVSbG_Yp-PhVu3">
+              Use-case realization with GRASP</option>
+          </optgroup>
+          <optgroup label="Adapter pattern">
+            <option value="PKux3i8m3DrzYgTECD0JL9KgPZOkO5938v8sIjoX0kvEr0z2wcBPx-lqj7tWo1v99oTvHcjqz8uwsmh41vtWnTya9bAhMTAq75GY6SSfeJWxAxqMu0H3ji_CdOtWol4XYghwGNMD5-aCNqIxeJqSwREcB9cI1G0l-qvJhCLpLRCPPyi-5MMzla0DoZ6KxxzxE6s5z0K0">
+              Adapter class structure</option>
+            <option value="dP112i9034NtSuhWocuyWHIAY0WYeYU8qwY3pNJ8f69Hx-wqg1j5q4q8_oN_XyIZym456QAs5QKgpch3bJcuae0uQ0jCl2M9HfscaQB4e2Gmd9wHGn9sKZCiK1XzPfnFR8UMO5vOMpTUdTy_LyRZ5yvpk9XGHrsJ9NV2RKN3YL3fT8KjazUifnjCUbSoSpEsmXXXi2bMRzO3m0WTU0nrxTy1Co7KPIrw8F6VesRBuXdLjRz7cVx2KHD6r_pJgqnl-uNV0G00">
+              Adapter example class structure</option>
+            <option value="NKynRiCm3Dpv2i9JCjGFoD32MuS2DUfyW90PHuX5gH8TsBylxGQ8aONWyUvuPBbvIPGfOD5bPAlPEvt22EhLSDDJKivO-7TYSOmyKqX67Bue1v8Zc5kzyub4iJhzyE2B6IgaWlc5_DYcyMNQDMtZN9n4lGoFl4r8yFQE6KyOwCOjBO55WPpwEodRyep6H-Fhklu7P235eXsDV2XMZayzWSkyDbjYjzYLeGA9woe_N1NZnVo0s7qtBSQxFMtWytnkWQN7LGYqXkpzbZVFC_IyYzc137y0">
+              Adapter example call sequence</option>
+          </optgroup>
+          <optgroup label="Observer pattern">
+            <option value="HOiv3i90303xVOML2WhoWcWR7a11I-COHrdOIxQ3505_9q89DDFCZDv3hYYOG6sEl502sPIY6yELWLEr6HAddaKTHLI5yzJVc0oU3isGnjtUlLTrwfNbmG9T5xAn34Zi_LBcOc6Ol-MsbyClN-_cM3896r_oPXf01IgE2hHJRL_-_tm0">
+              Observer class structure</option>
+            <option value="TSox3eCm30NGFLyHiJDqPUZIgLC7rYuX670R9yWnGVnzquT4GUrYoJxNDzxHZuODwIYBWpmPhKpar80jQA1H5ar03N1KEIXeSJHUT56TWXSEpW4NsaHjTrnFpGsil8osbX3cGtNrboO2fyz_KiOA9YEGgsnv95rfEnZVGotvk2efAeyfgm-2tR92KkaD32sRUGVFlXxaxBlmtTN2xoNzNJOngnu0">
+              Observer sequence</option>
+          </optgroup>
+          <optgroup label="Reactor pattern">
+            <option value="JP0nZy8m38Nt_0ehKnawtCfmonK9bbjOaL183OqkSQhOvQXG__ibj9owH8g_z-ndyu-ZtYGJW6NqcD_ah0p1gywr21Xw6I5Wk61YPIuP6okWTtSaWRsXrcFIO1XsUtYgvrinGVTYPop2IiOUDsjwGpdFYcgZ9cMzOGRz5Sac53pHg_-9_WVWGv3QCcNHpkHjF8vaknGf3baoMniCWnVNUtmi2O-x9aTaz6XbFVL0JfmH5maQnxqHsosEGp6i5-7iItXpB9YM_AdgIYt4Ewuhayfc_Q6X_WJzhSjvjijDyY7ph_PubGpdHJAClyIgPAo7VbsdAExga4l3kisg38ji2mCZ_m40">
+              Reactor classes</option>
+            <option value="LP1DQiGm38NtFeMOLGRQ760MtRI5zWw1e2WY8yPHWgrEcTjN-UaGRupzUE_fa_DDTCQ48sHxHFOp2TdF68Eh9YGpgi68eeLm8eonGxfT6dsVb18RD_fvPxL6lr3xoEa4c86wClUjOe8capRw8Nb6e-jkbRwmRYqv89dSqNY3y4dBtRtB4rxV_0eNKFujXSI3PEFKNZUOwX_u1NYXREqnypcurnFKUM9WsytLETHr3Uisi4gY0unJp-1wEMTBj6jdzk2JrWbxBjctOVjUdiqScQmgA8vzrP7qMUK_UYZsLmX_">
+              Reactor sequence</option>
+          </optgroup>
+          <optgroup label="Other diagrams">
+            <option value="LOx12i8m44Jl-nLBJ-rV5CIBPuL2I25j5X9CDoMxWOhuxrP1KPZB30_UzAAkQ5qIY4iATpXLKLoJYunAcu8vXoYuPxdXL5KpMsWxlF0SQBwIn-9ypD0E7Hx-5cD_e2blO0RxHLwzER9IULimK25iOFp87FgIrnH5HtX0J-ptYqy0">
+              Wireframe graphical interface</option>
+            <option value="bLN1Zjem4Btp5LCEXPLOSkzfGxjR8Usg27RLoqh8CKFYbMDRjWEbNzz9uW0X0MrFs8zvxut7pyg3yypw8fSmLnwjGWypg_SEBJp-ORcHEFWY59V51Wih8VFUk6zHPDb-cWgV5Kb1fLmJL_afrtc4IN8mI59HR7acSkRnVY6Pycylpr7ENEkVgI7dWHTU8Xn1M5M-SDzfQJ22HuavMRd1h712eNFhNya7SZzEmhxUJc0OGrC2DJQyEv4MLdFw7JkTOmC6R39S4NWY1_YSlKAx4np7mgyAOxJr0I3N-Ii43BRQdbJ6iJ5ISEQ5LX3AxqZp35x_O9w5qsoEIzByZGaiM8fG5i2xWX5f-0nXAm-Z2usdGl5oCTvZOeWpmupjX2viq2anI1hmWlnTvqOh6kyu9f4TBYWQH2gzou5M69GWw6tLmBvHx3RrYZnJMkhqi8wj5rj6fnBg1NDj3tEF-MGe5EJL5g8McKAMo-Y3xPZZLXZV5ZlEFcGZHACS_MM0Vw92ApXyXOKiKg4-9LINaboLWexcBIMQHhcicgdOvNXSXH1Xj4HPZTbbmhW1xTPFKk_NpxZrlJc4JgH9fQHLVYfTlvcU1FOg7Pa6kM1I_AtlcmIwCUa9TM1NxIv5chNpsPEqgtRdl6l7YvqJgIfVUJsRdYp-ZsKhTD1wM86pn1k4lfVmEQzkGdlkxxBcnickifh8NkV6QMenhTkiBx1ZVEqPD0gyJ598J9FozgHw6ctLzapZ0TM6lW3_0000">
+              ArchiMate</option>
+            <option value="TO-n3e90343tVaL7Y8DnS3cKy0tk3WqKR3XwvEuaakY_UmABYIuTtcjUsYf4yl4-M0Yzw4YU1WnnjfocbtenviBKp0KOvKVCNFxya9fb4kqA2AELc1prcUGdC5JtQQTSEL97eYjSx9O0fnXuOayMhIY7r1GqPnJSuU7wfyBURnNwOLldzjz4iCJZ2q9q8x0sk9tQYagu5L0bblvx0m00">
+              Specification Description Language</option>
+            <option value="XP4x2m9138Jx-nNJMOg8WfreeOA5XM1nMAnUF1UEtIE9Yl_UlSNr_MYMG2RVJB93KSDQ6gUQvGlswlLS4meIMxerAYCgw7HHcBF0k09MiFMLPmgbmzmSoHN4xRajzpgg3fJbIn95dL29CVY667isLNl2H2vsOo11ijmfCTwJjGJ1ECjNR9MWmLAIK-_k52IXq1_pKylNSPmQ5Dym_G-OHxT0Y56pVEQiHjtftWPJxLdNtvVzCtSzGwT9WGtj0W6lfqqHdaE-YvfDX-69ttm1">
+              Gantt chart</option>
+            <option value="JP6vRiCm44HxViLMATG4wHN2GEHALWn4S92MabOK0LuWbt7qzz516sh8cJUBNHwdI2AGKNOmmhDUU5BEmgXa2WXlZ1HfX6Q6c3m6s2mhe7mPjP2ymau9oueLIEqwvBSkMKeBAU2YRFg3HbdQR9qEqK7NrHa-qJsw1E4dVccgy-vzqX5vw_Gy_DGPeVDwOOJ2NDkThPVWNoBwzJnmLpI1W5yCCsXd9LXXS1jMngtAT7tv6ZcySxYspSSncaVrYBwTJaOvDg4OCB3d8sIFTiYgHqiB7vrRjsVTxfb6kPH2K78YraukK4PhXwnEovB_u1y0">
+              MindMap</option>
+            <option value="DL2xRiCm3Dpz5Pow6Fg7035Gj2WwE4XsMM8T8ZAfIdI3_dqfszMaUn1tvAcgB_gSQjV39pxXNQQkxs70G151k14mulTA1HTaDP_9Rz6-fBym-xmp8_vG6nyssCE5PdRN35zI8CXQAXx2JTBAYbXsEAAFnBC11-SxXaUYgaro9jKiN6cYH4hxl8CF2Lv9kBKyt-2Qa_W8Wp1kFJOgUiLuzCYOaWN02xmMlop-oDsoe1bhv-p1vK4f_UyIoahQreLAve1mbuhSdP2ZdUeF">
+              Work Breakdown Structure</option>
+            <option value="JO_H3e8W58RlUGekOSoXrbMPyn6wwDB9S62u8JIa3JFVFSbgtPtpVVl_dLEDdZj_7pGu50FtgkoDPscJTIXW4GhwPiUl34rE9fQH1yloPhV_QMEzXAw_AWykRe9SZnPi2K55Y5qdtGyCgQHCCLfted0ICQRgKm8ApRqCvHbDppgIjfl3Wc4zj3RCq3gum0xz6LBBszXhQmgw9O4q0iPBGBLEyQKN">
+              Mathematics notation</option>
+          </optgroup>
+        </select><br/>
+      </div>
+      <div class="block">
+        <label for="source-text"><b>PlantUML source</b></label>
+        <textarea class="code-text width-100" id="source-text" rows="8"></textarea>
+      </div>
+    </div>
+
+   <div class="block" id="button-bar">
+      <button id="insert-image">Insert</button>
+      <button id="recover-source-from-url">Edit selected</button>
+    </div>
+    <div class="block" id="plantuml-image">
+      <label id="server-label"></label>
+      <!-- Need a certain number of vertical lines in the div <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> -->
+      <div class="bounding-box preview-space" id="image-preview">
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="sidebar bottom">
+  <img alt="Add-on logo" class="logo" width="40" height="40"
+      src="https://1fbd14da-a-62cb3a1a-s-sites.googlegroups.com/site/plantumlgizmo/images/PlantUMLGizmo128x128.png?attachauth=ANoY7cpWrdl9DrX-NTQJJJ1ZpLYQBm6ShnNaK4T4pajA-jNaxJU40qrB-MvJRi0V42znaXocorjBGQkSHj3NAI67dY9Ir5ctlxtX36QbAMN2bHjRodjGLCwy4gZnKVe5BipBn5DN1q6cbMBzFB0F9xqYQ1laFSUD9YjdzvI984RzN5FF54h6bEQlThpQRweE2WzXcXKBeOWQ7_TQyNY7nk_W-4c_8_x_3Ck6ARiKAwmvEC2Ns91B4Hs%3D&attredirects=0">
+  <span class="gray branding-text">PlantUML Gizmo by <a href="https://profs.etsmtl.ca/cfuhrman/">C. Fuhrman</a></span>
+</div>
+
+<?!= HtmlService.createHtmlOutputFromFile('SidebarJS').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('PrefsJS').getContent(); ?>
+<?!= HtmlService.createHtmlOutputFromFile('Errors').getContent();; ?>
+
+<?!= HtmlService.createHtmlOutputFromFile('Utils').getContent();; ?>
+  </body>
+  </html>

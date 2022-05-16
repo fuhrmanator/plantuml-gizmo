@@ -1,0 +1,205 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
+</script>
+<script>
+
+var gizmoPrivateServerFAQ = 'https://sites.google.com/site/plantumlgizmo/learn#TOC-Can-I-specify-a-different-PlantUML-server-on-a-private-network-';
+var plantumlserver = "undefined";
+var useDataURL = false;
+var timeout;
+var timerInProgress = false;
+
+/**
+ * On document load, assign click handlers to each button.
+ */
+$(function () {
+	$('#recover-source-from-url').click(recoverSourceFromURL);
+	$('#insert-image').click(insertImage);
+	$('#source-text').on('keyup', function () {
+		// http://stackoverflow.com/a/25392832/1168342
+		if (!timerInProgress) {
+			timerInProgress = true;
+			timeout = setTimeout(function () {
+					timerInProgress = false;
+					//enable save if a change
+					updatePreview();
+				}, 2.5e3 /* 2.5 seconds */
+				);
+		}
+	});
+    google.script.run.withSuccessHandler(loadPreferences)
+            .withFailureHandler(showError).getPrefs();   
+
+});
+
+function checkServerDefinition() {
+    if (plantumlserver == 'undefined') {
+			showError("Server pref undefined!", $('#button-bar'));
+    }
+}
+
+/**
+ * Puts a sample PlantUML model in the source editor and displays image
+ */
+function updateSourceFromSample(theMenu) {
+	theMenu.disabled = true;
+	$('#error').remove();
+	$('#source-text').val(decode64(theMenu.value));
+	updatePreview();
+	theMenu.disabled = false;
+}
+
+/**
+ * Runs a server-side function to recover URL from selected PlantUML image and generate
+ * source code in editor.
+ */
+function recoverSourceFromURL() {
+	this.disabled = true;
+	$('#error').remove();
+	google.script.run
+	.withSuccessHandler(
+		function (recoveredURL, element) {
+		showError("got URL:" + recoveredURL, $('#button-bar'));
+		$('#source-text').val(getPlantUmlSourceFromUrl(recoveredURL));
+		element.disabled = false;
+		updatePreview();
+	})
+	.withFailureHandler(
+		function (msg, element) {
+		showError(msg, $('#button-bar'));
+		element.disabled = false;
+	})
+	.withUserObject(this)
+	.recoverUrlFromImage();
+}
+
+/**
+ * Update the image from the source text
+ */
+function updatePreview() {
+	//console.log("updatePreview()");
+	$('#error').remove();
+	showImage();
+	saveSource();
+}
+
+/**
+ * Saves the value of the source to the server as a document pref
+ */
+function saveSource() {
+	google.script.run
+	.withFailureHandler(
+		function (msg) {
+		showError(msg, $('#button-bar'));
+	})
+	.saveSource($('#source-text').val());
+}
+
+/**
+ * Runs a server-side function to insert the translated text into the document
+ * at the user's cursor or selection.
+ */
+function insertImage() {
+    updatePreview();
+    var imageURL = getPlantUmlUrlFromSource(plantumlserver, "img", $('#source-text').val());
+    var theButton = this;  // have to make a copy so it's available in call-back and can be re-enabled 
+    theButton.disabled = true; 
+
+    /*
+     * With data URLs, we have to fetch them with an XMLHTTPRequest.
+	 * We have to do it asynchronously, making the code harder to understand
+     */
+
+    if (useDataURL) {
+		//
+		var isAsynch = true;
+		var theURL = getPlantUmlUrlFromSource(plantumlserver, "base64", $('#source-text').val());
+		var xhr = createCORSRequest('GET', theURL, isAsynch);
+		if (!xhr) {
+			showError("CORS not supported", $('#button-bar'));
+            theButton.disabled = false;
+        } else {
+            xhr.responseType = 'text';
+            xhr.onreadystatechange = function (e) {
+                var dataURL;
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) { // success
+                        dataURL = xhr.responseText;
+                        dataURL = dataURL.replace(/(\r\n|\n|\r)/gm, ""); // PlantUML.com breaks up the base64 into several lines
+                        runInsertImage(dataURL, imageURL, theButton);
+                    } else {
+                        showError('Unable to transfer image as "data:..." URL. See this <a href="' + 
+                        gizmoPrivateServerFAQ + '">FAQ</a>');
+                    }
+                    theButton.disabled = false;
+                }
+            }
+            
+            xhr.onerror = function (e) {
+                showError("The insert operation could not be performed.", $('#button-bar'));
+                theButton.disabled = false;
+            }
+            var sendResult = xhr.send();
+        }
+	} else { // not data URLs
+		runInsertImage("", imageURL, theButton);
+	}
+
+}
+
+function runInsertImage(dataURL, imageURL, theButton) {
+	google.script.run
+	.withSuccessHandler(
+		function (returnSuccess, element) {
+		element.disabled = false;
+		google.script.host.editor.focus(); // transfer focus to editor
+	})
+	.withFailureHandler(
+		function (msg, element) {
+		showError(msg);
+		element.disabled = false;
+	})
+    .withUserObject(theButton)
+	.insertImage(dataURL.toString(), imageURL.toString());
+}
+
+function createCORSRequest(method, url, isAsync) {
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, url, isAsync);
+	return xhr;
+}
+
+/**
+ * Generates the image from the text in the source text area
+ */
+function generateImage() {
+	this.disabled = true;
+	updatePreview();
+	this.disabled = false;
+}
+
+/**
+ * Shows the preview
+ */
+function showImage() {
+    checkServerDefinition();
+	var imageUrl = getPlantUmlUrlFromSource(plantumlserver, "img", $('#source-text').val());
+	$("#image-preview").css('background-image', "url(" + imageUrl + ")"); 
+}
+
+/**
+ * Runs a server-side function to query preferences and put them in UI
+ */
+function loadPreferences(prefs) {
+    plantumlserver = prefs.serverPrefix;
+    useDataURL = prefs.useDataURL;
+    $('#source-text').val("Bob->Alice : hello");
+    updateServerPreviewLabel();
+    showImage();
+}
+
+function updateServerPreviewLabel() {
+  var serverName = (plantumlserver !== "https://www.plantuml.com/plantuml/") ? "User-specified PlantUML server" : "PlantUML.com";
+  $('#server-label').html('<b>Preview via <a href="' + plantumlserver + '">' + serverName + '</a></b>');
+}
+
+</script>

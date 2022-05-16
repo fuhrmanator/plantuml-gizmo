@@ -1,0 +1,15 @@
+<script>
+ /**
+   * Inserts a div that contains an error message after a given element.
+   *
+   * @param msg The error message to display.
+   * @param element The element after which to display the error.
+   */
+  function showError(msg, element) {
+    if (!element) {
+      element = $('#button-bar');
+    }
+    var div = $('<div id="error" class="error">' + msg + '</div>');
+    $(element).after(div);
+  }
+</script>

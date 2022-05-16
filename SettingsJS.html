@@ -1,0 +1,77 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+
+<script>
+  /**
+   * On document load, assign click handlers to each button.
+   * Load script preferences
+   */
+  $(function() {
+    getPrefsOnServer();  // initialize UI with prefs values
+    $('#save-changes').click(setPrefsOnServer);
+    $('#test-server').click(validateServerURL);
+    $('#use-data-url').click(function(){
+        //enable save if a change
+        $('#save-changes').removeAttr('disabled');
+      });
+    $('#plantuml-server').keyup(function(){
+        //enable save if a change
+        $('#save-changes').removeAttr('disabled');
+      });
+//   /**
+//    * See http://jsfiddle.net/Pug3H/2/ and http://stackoverflow.com/a/24790754/1168342 for how this works
+//    */
+//    $('form')
+//		.each(function(){
+//			$(this).data('serialized', $(this).serialize())
+//		})
+//        .on('input', function(){
+//            window.alert("changed.");
+//            $(this)				
+//                .find('input:submit, button:submit')
+//                    .attr('disabled', $(this).serialize() == $(this).data('serialized'))
+//            ;
+//         })
+//		.find('input:submit, button:submit')
+
+  });
+  
+function validateServerURL() {
+  normalizePrefix();
+  var prefix = $('#plantuml-server').val();
+  var testImageURL = prefix + "img/oyXCILL8pIqegLJ8JSrDIYqgvYhEpimhI2nAp5KeBgdCIGMIHPd99QMvELmXgSKb2herTWh1fSd9gSN50000";
+  var div;
+  $('#test-preview').remove();
+  $('#test-result').remove();
+
+  if (!isValidServerUrl(prefix)) {
+    div = $('<div id="test-preview" class="error">Server prefix is not a valid URL.</div>');
+    $('#server-prefix-block').after(div);
+  } else {
+    div = $('<div id="test-preview"><img id="test-image" src="' + testImageURL + '"></div>');
+    $('#server-prefix-block').after(div);
+    $('#test-image').error(function() {
+      var div2 = $('<div id="test-result" class="error">Test image failed to load.</div>');
+      $('#server-prefix-block').after(div2);
+    });
+  }
+}
+
+function normalizePrefix() {
+  var prefix = $('#plantuml-server').val();
+  // remove leading or trailing spaces
+  prefix = prefix.trim();
+  // add a '/' to the end of the prefix if needed
+  if (prefix.slice(-1) != "/") {
+    prefix = prefix + "/";
+  }
+  // put it back
+  $('#plantuml-server').val(prefix);
+}
+
+function isValidServerUrl(s) {
+    var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+  
+</script>

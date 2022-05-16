@@ -1,5 +1,6 @@
-# plantuml-gizmo-add-on
-**PlantUML Gizmo Add-on** was created initially to help students easily put (and reuse) UML documentation inside their laboratory projects at the École de technologie supérieure. 
+# plantuml-gizmo
+
+The **PlantUML Gizmo Add-on** was created initially (2014) to help students easily put (and reuse) UML documentation inside their laboratory projects in software design courses at the École de technologie supérieure. It was one of the first Google Docs add-ons, and took 6 months to be approved. 
 
 This project was designed and coded by [Christopher Fuhrman](https://etsmtl.ca/Professeurs/cfuhrman/Accueil?lang=en-CA) with help and encouragement from @arnaudroques and the crew at PlantText.com (@arwenvaughan).
 

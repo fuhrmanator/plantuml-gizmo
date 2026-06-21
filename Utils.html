@@ -148,7 +148,6 @@ function decimalByteToHex(d, padding) {
 }
 
 	// Source: http://www.koders.com/javascript/fid78168FE1380F7420FB7B7CD8BAEAE58929523C17.aspx
-	// GPLv2 https://web.archive.org/web/20100129022136/http://code.google.com/p/attackapi/
 	function mybtoaBad (input) {
 		var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 		
@@ -220,94 +219,6 @@ function decode64(data) {
 	 return decodeURIComponent(ss);
 }
 
-
-
-//function encode64(data) {
-//	r = "";
-//	for (i=0; i<data.length; i+=3) {
-// 		if (i+2==data.length) {
-//			r +=append3bytes(data.charCodeAt(i), data.charCodeAt(i+1), 0);
-//		} else if (i+1==data.length) {
-//			r += append3bytes(data.charCodeAt(i), 0, 0);
-//		} else {
-//			r += append3bytes(data.charCodeAt(i), data.charCodeAt(i+1), data.charCodeAt(i+2));
-//		}
-//	}
-//	return r;
-//}
-//
-//function append3bytes(b1, b2, b3) {
-//	c1 = b1 >> 2;
-//	c2 = ((b1 & 0x3) << 4) | (b2 >> 4);
-//	c3 = ((b2 & 0xF) << 2) | (b3 >> 6);
-//	c4 = b3 & 0x3F;
-//	r = "";
-//	r += encode6bit(c1 & 0x3F);
-//	r += encode6bit(c2 & 0x3F);
-//	r += encode6bit(c3 & 0x3F);
-//	r += encode6bit(c4 & 0x3F);
-//	return r;
-//}
-//
-//function encode6bit(b) {
-//	if (b < 10) {
-// 		return String.fromCharCode(48 + b);
-//	}
-//	b -= 10;
-//	if (b < 26) {
-// 		return String.fromCharCode(65 + b);
-//	}
-//	b -= 26;
-//	if (b < 26) {
-// 		return String.fromCharCode(97 + b);
-//	}
-//	b -= 26;
-//	if (b == 0) {
-// 		return '-';
-//	}
-//	if (b == 1) {
-// 		return '_';
-//	}
-//	return '?';
-//}
-//
-//var deflater = window.SharedWorker && new SharedWorker('javascript/jquery-plantuml/rawdeflate.js');
-//if (deflater) {
-//	deflater.port.addEventListener('message', done_deflating, false);
-//	deflater.port.start();
-//} else if (window.Worker) {
-//	deflater = new Worker('javascript/jquery-plantuml/rawdeflate.js');
-//	deflater.onmessage = done_deflating;
-//}
-//
-//function done_deflating(e) {
-//	var encodedText = encode64(e.data);
-//	var fullimageLink = plantumlserver + "img/" + encodedText;
-//	var fullsvgLink = plantumlserver + "svg/" + encodedText;
-//	document.getElementById('im').src = fullimageLink;
-//	$("a#plantimagelink").attr("href", fullimageLink);
-//	$("a#plantsvglink").attr("href", fullsvgLink);
-//	$("a#planteditorlink").attr("href", "planttext?text=" + encodedText);
-//}
-//
-//function compress(s) {
-//	//UTF8
-//	s = unescape(encodeURIComponent(s));
-//	
-//	if (deflater) {
-//		if (deflater.port && deflater.port.postMessage) {
-//			deflater.port.postMessage(s);
-//		} else {
-//			deflater.postMessage(s);
-//		}
-//  	} else {
-// 		setTimeout(function() {
-//      		done_deflating({ data: deflate(s) });
-//		}, 100);
-//  	}
-//}
-
-///////////////////// rawinflate.js from www.planttext.com/javascript/jquery-plantuml/rawinflate.js
 
 // GPL https://web.archive.org/web/20121116231954/http://www.onicos.com/staff/iz/amuse/javascript/expert/
 /*

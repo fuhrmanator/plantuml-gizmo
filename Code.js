@@ -54,13 +54,13 @@ function showSidebar() {
   DocumentApp.getUi().showSidebar(ui);
 
 // code past here doesn't seem to run (filtered by CAJA, or showSidebar() never returns?)  
-//  Logger.log("checking selection");
+//  console.log("checking selection");
 //  // load source of image if it's selected
 //  var selection = DocumentApp.getActiveDocument().getSelection();
 //  if (selection) {
 //    recoverUrlFromImage();
 //  } else {
-//    Logger.log("No image selected");
+//    console.log("No image selected");
 //  }
 //  
 
@@ -109,20 +109,20 @@ function showAbout() {
  * Save PlantUML source text (from sidebar)
  */
 function saveSource(source) {
-  // Logger.log("Saving source " + source );  
+  // console.log("Saving source " + source );  
   var properties = PropertiesService.getUserProperties();  // User properties hold source code, since collaborators could conceivably modify the same Document
   var result = properties.setProperty("PlantUMLSource", source);
-  // Logger.log("Result = " + result );
+  // console.log("Result = " + result );
 }
 
 /**
  * Load PlantUML source text (from sidebar)
  */
 function loadSource() {
-  // Logger.log("Loading source");  
+  // console.log("Loading source");  
   var properties = PropertiesService.getUserProperties();
   var source = properties.getProperty("PlantUMLSource");
-  // Logger.log("source = " + source );
+  // console.log("source = " + source );
   if (!source) {
     source = "Bob -> Alice : hello";
   }
@@ -133,7 +133,7 @@ function loadSource() {
  * Save PlantUML source text (from sidebar)
  */
 function clearSource() {
-  // Logger.log("Clearing source");
+  // console.log("Clearing source");
   var properties = PropertiesService.getUserProperties();
   properties.deleteProperty("PlantUMLSource");
 }
@@ -171,7 +171,7 @@ function getPrefs() {
  * Sets the prefs
  */
 function setPrefs(prefs) {
-//  Logger.log("setting prefs: " + prefs.serverPrefix + ", useDataURL=" + prefs.useDataURL + " (type is " + typeof prefs.useDataURL + ")");
+//  console.log("setting prefs: " + prefs.serverPrefix + ", useDataURL=" + prefs.useDataURL + " (type is " + typeof prefs.useDataURL + ")");
   // TODO verify it's a valid URL - try to get an image? -- maybe try this in the JavaScript settings first
   var theProperties = PropertiesService.getDocumentProperties();
   theProperties.setProperty('PLANTUML_SERVER_URL', prefs.serverPrefix);
@@ -188,7 +188,7 @@ function recoverUrlFromImage() {
   if (selection) {
     /* make sure selection is an image */
     var elements = selection.getSelectedElements();
-//    Logger.log("selection = " + selection);
+//    console.log("selection = " + selection);
     if (elements.length == 1 &&
         elements[0].getElement().getType() ==
         DocumentApp.ElementType.INLINE_IMAGE) {
@@ -196,7 +196,7 @@ function recoverUrlFromImage() {
           if (!url) {
             throw 'Invalid image - must have a PlantUML URL linked to it. See this <a href="https://sites.google.com/site/plantumlgizmo/learn#TOC-Can-I-update-the-source-of-PlantUML-diagrams-">FAQ</a>.';
           }
-//          Logger.log("recoveredURL = " + url);
+//          console.log("recoveredURL = " + url);
         } else {
           throw "Must select a PlantUML diagram.";
         }
@@ -216,19 +216,19 @@ function insertImage(imageDataUrl, imageUrl) {
    * For debugging cursor info
    */
 //  var cursor = DocumentApp.getActiveDocument().getCursor();
-//  Logger.log(cursor.getElement().getParent().getType());
+//  console.log(cursor.getElement().getParent().getType());
 //  throw "cursor info: " + cursor.getElement().getType() + " offset = " + cursor.getOffset() + " surrounding text = '" + cursor.getSurroundingText().getText() + "'  parent's type = " + 
 //    cursor.getElement().getParent().getType();
 
   /*
    * end debug
    */
-//  Logger.log("insertImage got imageDataURL of '" + imageDataUrl + "'");
-//  Logger.log("insertImage got imageURL of '" + imageUrl + "'");
+  // console.log("insertImage got imageDataURL of '" + imageDataUrl + "'");
+  // console.log("insertImage got imageURL of '" + imageUrl + "'");
   var doc = DocumentApp.getActiveDocument();
   var selection = doc.getSelection();
   var replaced = false;
-  //Logger.log("insertImage()");
+  // console.log({message: 'inside function blah', someInfo: 15});
   /// TODO handle replacement cases
   if (selection) {
     var elements = selection.getSelectedElements();
@@ -249,10 +249,14 @@ function insertImage(imageDataUrl, imageUrl) {
   var blob;
 
   if (imageDataUrl != "") {
+    // console.log("imageDataUrl is empty console log")
+    // console.log("imageDataUrl is empty");
     blob = getBlobFromBase64(imageDataUrl);
   } else {
+    // blob = UrlFetchApp.fetch(imageUrl + ".png").getBlob();
     blob = getBlobViaFetch(imageUrl);
-  }
+    //console.log("Got a blob of type " + blob.getContentType());
+   }
     
   var image = cursor.insertInlineImage(blob);  
 
@@ -265,7 +269,7 @@ function insertImage(imageDataUrl, imageUrl) {
 
   // resize to width  
   if (cursor.getElement().getType() == DocumentApp.ElementType.PARAGRAPH) {
-//    Logger.log("Resizing");
+    // console.log("Resizing");
     var currentParagraph = DocumentApp.getActiveDocument().getCursor().getElement().asParagraph();
     var originalImageWidth = image.getWidth();  // pixels
     var documentWidthPoints = DocumentApp.getActiveDocument().getBody().getPageWidth() - DocumentApp.getActiveDocument().getBody().getMarginLeft() - DocumentApp.getActiveDocument().getBody().getMarginRight();
@@ -289,10 +293,10 @@ function insertImage(imageDataUrl, imageUrl) {
 }
 
 function getBlobViaFetch(imageDataUrl) {
-//  Logger.log("UrlFetchApp.fetch");
+  // console.log("UrlFetchApp.fetch");
   var resp = UrlFetchApp.fetch(imageDataUrl);  // raw data
-//  Logger.log("resp code: " + resp.getResponseCode());
-//  Logger.log("fetch resp: " + resp.getContent());
+  // console.log("resp code: " + resp.getResponseCode());
+  // console.log("fetch resp: " + resp.getContent());
 
   if (resp.getResponseCode() != 200) {
     throw "HTTPResponse returned code of " + resp.getResponseCode() + " for URL " + imageUrl;
@@ -304,9 +308,11 @@ function getBlobViaFetch(imageDataUrl) {
   if (blob == null) {
     throw "Blob is null ";
   }
-  blob.setContentType('image/png');  // since it's null
+  // console.log("blob content type: " + blob.getContentType());
 
-//  Logger.log("blob type: " + blob.getContentType() + ", bytes = '" + blob.getBytes() + "'");
+  blob.setContentType('image/png');  // force it to be something it's not?
+
+  // console.log("blob type: " + blob.getContentType() + ", bytes = '" + blob.getBytes() + "'");
   
   return blob;
 
@@ -319,7 +325,7 @@ function getBlobFromBase64(imageDataUrl) {
   if (blob == null) {
     throw "getBlobFromBase64: Blob is null ";
   }
-//  Logger.log("getBlobFromBase64: blob type: " + blob.getContentType() + ", bytes = '" + blob.getBytes() + "'");  
+//  console.log("getBlobFromBase64: blob type: " + blob.getContentType() + ", bytes = '" + blob.getBytes() + "'");  
   return blob;
 
 }

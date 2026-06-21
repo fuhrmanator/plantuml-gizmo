@@ -1,5 +1,5 @@
 /**
- * PlantUML Gizmo project - (c) 2014 Christopher Fuhrman 
+ * PlantUML Gizmo project - (c) 2014-2026 Christopher Fuhrman 
  * fuhrmanator@gmail.com
  */
 
@@ -101,7 +101,7 @@ function showAbout() {
 
   var result = ui.alert(
     'About',
-    'PlantUML Gizmo was written for use in the OO Analysis and Design courses at École de technologie supérieure, and has been used by Google Engineers on Android and Google Pay.\n\nIt uses JavaScript API Client Code described at http://plantuml.sourceforge.net/codejavascript.html as well as inflating routines at http://www.planttext.com/javascript/jquery-plantuml/plantuml.js \n\nFind me on twitter @thefuhrmanator. Version 15 (2019-11-22)',
+    'PlantUML Gizmo was written for use in the OO Analysis and Design courses at École de technologie supérieure, and has been used by Google Engineers on Android and Google Pay.\n\nIt uses JavaScript API Client Code described at https://plantuml.com/code-javascript-asynchronous as well as inflating routines at http://www.planttext.com/javascript/jquery-plantuml/plantuml.js \n\n(2026-06-20)',
     ui.ButtonSet.OK);
 }
 

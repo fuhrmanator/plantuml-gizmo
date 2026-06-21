@@ -21,7 +21,9 @@ var ADD_ON_TITLE = 'PlantUML Gizmo';
  *     running in, inspect e.authMode.
  */
 function onOpen(e) {
-  DocumentApp.getUi().createAddonMenu()
+  var ui = getUi();
+  
+  ui.createAddonMenu()
       .addItem('Start', 'showSidebar')
       .addSeparator()
       .addItem('About', 'showAbout')
@@ -48,23 +50,9 @@ function onInstall(e) {
 function showSidebar() {
   var ui = HtmlService.createTemplateFromFile('Sidebar')
       .evaluate()
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME)  // https://developers.google.com/apps-script/migration/iframe?utm_campaign=app+invites_deprication_google_apps_script_101315&utm_source=gdev&utm_medium=blog#setting_the_link_target_attribute
-      .setTitle(ADD_ON_TITLE)
+      .setTitle(ADD_ON_TITLE);
 
-  DocumentApp.getUi().showSidebar(ui);
-
-// code past here doesn't seem to run (filtered by CAJA, or showSidebar() never returns?)  
-//  console.log("checking selection");
-//  // load source of image if it's selected
-//  var selection = DocumentApp.getActiveDocument().getSelection();
-//  if (selection) {
-//    recoverUrlFromImage();
-//  } else {
-//    console.log("No image selected");
-//  }
-//  
-
-
+  getUi().showSidebar(ui); // Updated
 }
 
 /**
@@ -73,7 +61,7 @@ function showSidebar() {
 function reshowSidebar() {
   var ui = HtmlService.createTemplateFromFile('Sidebar')
       .evaluate()
-      .setTitle(ADD_ON_TITLE)
+      .setTitle(ADD_ON_TITLE);
 
   DocumentApp.getUi().showSidebar(ui);  
 }
@@ -84,11 +72,10 @@ function reshowSidebar() {
 function showSettings() {
   var ui = HtmlService.createTemplateFromFile('Settings')
       .evaluate()
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .setTitle('PlantUML Gizmo Settings')
       .setWidth(500)
       .setHeight(315);
-  DocumentApp.getUi().showDialog(ui);  // does this call block???
+  DocumentApp.getUi().showDialog(ui);
   return;
 }
 
@@ -328,4 +315,12 @@ function getBlobFromBase64(imageDataUrl) {
 //  console.log("getBlobFromBase64: blob type: " + blob.getContentType() + ", bytes = '" + blob.getBytes() + "'");  
   return blob;
 
+}
+
+function getUi() {
+  try {
+    return DocumentApp.getUi();
+  } catch (err) {
+    return SlidesApp.getUi();
+  }
 }
